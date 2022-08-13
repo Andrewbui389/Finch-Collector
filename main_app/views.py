@@ -8,7 +8,7 @@ from .models import Finches, Blade
 
 
 def home(request):
-    return render(request, 'base.html')
+    return render(request, 'home.html')
 
 def about(request):
     return render(request, 'about.html')
@@ -21,6 +21,8 @@ def finches_index(request):
 
 def detail(request,finch_id):
     finch = Finches.objects.get(id=finch_id)
+    id_list = finch.blade.all().values_list('id')
+    no_blade = Blade.objects.exclude(id__in=id_list)
     feeding_form = FeedingForm()
     return render(request, 'finch/detail.html', {'finch':finch,'feeding_form': feeding_form})
 
@@ -36,7 +38,7 @@ def feed_finch(request, finch_id):
 
 class CreateFinch(CreateView):
     model = Finches
-    fields = '__all__'
+    fields = ['name', 'speed', 'description', 'color', 'age']
 
 class DeleteFinch(DeleteView):
     model = Finches
@@ -44,10 +46,7 @@ class DeleteFinch(DeleteView):
 
 class EditFinch(UpdateView):
     model = Finches
-    fields = '__all__'
-
-
-
+    fields = ['name', 'speed', 'description', 'color', 'age']
 
 class BladeList(ListView):
     model = Blade
@@ -67,3 +66,4 @@ class BladeDelete(DeleteView):
     model = Blade
     success_url = '/blades/'
 # Create your views here.
+
