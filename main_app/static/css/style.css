@@ -1,0 +1,23 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+main {
+  flex: 1 0 auto;
+}
+
+footer.page-footer{
+  background-color: black;
+}
+
+.nav-wrapper{
+  background-color: rgb(25, 21, 21);
+  padding: 0 10px;
+}
+
+.flexbox{
+  display: flex;
+  justify-content: center;
+}

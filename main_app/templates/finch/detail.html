@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Finch Details</h1>
+
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ finch.name }}</span>
+            <p>Description: {{ finch.description|linebreaks }}</p>
+            <p>Speed: {{finch.speed}}</p>
+            <p>Color: {{finch.color}}</p>
+            <p>Age: {{finch.age}}</p>
+        </div>
+        <div class="card-action">
+            <a href="{% url 'edit_finch' finch.id %}">Edit</a>
+            <a href="{% url 'delete_finch' finch.id %}">Delete</a>
+        </div>
+    </div>
+  </div>
+  <div class="col s6">
+    <form action="{% url 'feed_finch' finch.id %}" method="POST">
+      {% csrf_token %}
+      {{ feeding_form.as_p }}
+      <button class="btn" type="submit">Add Feeding</button>
+    </form>
+    <br>
+    <table class="striped">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Meal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for feeding in finch.feeding_set.all %}
+        <tr>
+          <td>{{feeding.date}}</td>
+          <td>{{feeding.get_meal_display}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const dateEl = document.getElementById('id_date');
+  M.Datepicker.init(dateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  });
+
+  const selectEl = document.getElementById('id_meal');
+  M.FormSelect.init(selectEl);
+</script>
+
+{%endblock%}

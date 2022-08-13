@@ -1,0 +1,30 @@
+{%extends "base.html"%}
+
+{%block content%}
+<h1>All Finches</h1>
+    {%if finches%}
+        {%for i in finches%}
+        <a href="{%url 'detail' i.id%}">
+            <div class="row">
+                <div class="col s12 l6">
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">Name:{{i.name}}</span>
+                            <p>Speed: {{i.speed}}</p>
+                            <p>Color: {{i.color|upper}}</p>
+                            {%if i.baby < 10%}
+                            <p>Adult: Nope Still a Baby</p>
+                            {%elif i.baby > 10 %}
+                            <p>Adult: All grown up </p>
+                            {%endif%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {%endfor%}
+    {% else %}
+    <p>No Finches Yet</p>
+    {%endif%}
+    
+{%endblock%}
